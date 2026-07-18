@@ -1,0 +1,9 @@
+# Dependencies
+node_modules/
+
+# Zips and backups
+src.zip
+
+# Local environment/OS garbage files
+.DS_Store
+Thumbs.db
