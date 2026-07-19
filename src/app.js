@@ -25,6 +25,8 @@ import { renderProducts } from './render/renderProducts.js'
 
 import { filterProducts } from './utils/filterProducts.js'
 
+import { registerEventListeners } from './events/registerEventListeners.js'
+
 /* ===============================
    DOM ELEMENTS
 ================================= */
@@ -253,17 +255,24 @@ store.dispatch(fetchProducts())
 /* ===============================
    COUNTER EVENTS
 ================================= */
-searchInput.addEventListener('input', () => {
+/*searchInput.addEventListener('input', () => {
   render()
-})
+}) 
 
 sortProducts.addEventListener('change', () => {
   render()
-})
+}) 
 
 // 🟢 FIXED: Added missing Category filter event listener exactly where your partner specified!
 categoryFilter.addEventListener('change', () => {
   render()
+})*/
+
+registerEventListeners({
+  render,
+  searchInput,
+  sortProducts,
+  categoryFilter,
 })
 
 incrementBtn.addEventListener('click', () => {
