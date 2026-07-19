@@ -23,6 +23,8 @@ import { addItem, clearCart } from './store/cartSlice.js'
 // 🟢 NEW IMPORT FOR SPRINT 1 REFACOR:
 import { renderProducts } from './render/renderProducts.js'
 
+import { filterProducts } from './utils/filterProducts.js'
+
 /* ===============================
    DOM ELEMENTS
 ================================= */
@@ -87,6 +89,9 @@ function render() {
   const searchTerm = searchInput.value.toLowerCase()
 
   const selectedCategory = categoryFilter.value
+
+  // 🟢 FIX 1: Define sortBy by grabbing the value from your DOM cache element
+  const sortBy = sortProducts.value
 
   //FEATURE 8 — BUILD CATEGORY LIST (PROFESSIONAL OPTIMIZED)
   const categories = (state.products.products || []).map((product) => {
@@ -198,51 +203,20 @@ function render() {
   // PRODUCTS LIST
   productList.innerHTML = ''
 
-  const filteredProducts = state.products.products.filter((product) => {
-    return product.title.toLowerCase().includes(searchTerm)
-  })
-
-  const categoryFilteredProducts = filteredProducts.filter((product) => {
-    if (selectedCategory === 'all') {
-      return true
-    }
-
-    return product.category === selectedCategory
-  })
-
-  //const sortedProducts = [...filteredProducts]
-
-  const sortedProducts = [...categoryFilteredProducts]
-
-  const sortBy = sortProducts.value
-
-  // 3. EXECUTE THE SWITCH ENGINE
-  switch (sortBy) {
-    case 'price-low-high':
-      sortedProducts.sort((a, b) => a.price - b.price)
-      break
-    case 'price-high-low':
-      sortedProducts.sort((a, b) => b.price - a.price)
-      break
-    case 'rating':
-      sortedProducts.sort((a, b) => b.rating - a.rating)
-      break
-    case 'stock':
-      sortedProducts.sort((a, b) => b.stock - a.stock)
-      break
-    case 'name-a-z':
-      sortedProducts.sort((a, b) => a.title.localeCompare(b.title))
-      break
-    case 'name-z-a':
-      sortedProducts.sort((a, b) => b.title.localeCompare(a.title))
-      break
-    default:
-      break
-  }
+  // Replaced Refactored filterProducts
+  const sortedProducts = filterProducts(
+    state.products.products || [], // 🟢 FIX 2: Add '|| []' fallback safety guard so it won't crash while loading
+    searchTerm,
+    selectedCategory,
+    sortBy,
+  )
 
   // 4. CHECK IF FILTERED PRODUCTS IS EMPTY (RESTORED TO ORIGINAL LOCATION)
   // if (filteredProducts.length === 0)
-  if (categoryFilteredProducts.length === 0) {
+
+  /* ❌ CHANGE THIS OLD LINE:
+if (categoryFilteredProducts.length === 0)*/
+  if (sortedProducts.length === 0) {
     productList.innerHTML = `
     <li class="no-products">
       🔍 No products found.
@@ -255,11 +229,7 @@ function render() {
   // ✂️ MOVED OUT PART: The old sortedProducts.forEach loop was removed from here!
   // 🟢 NEW IMPLEMENTATION: We delegate product rendering to our new module
   // =================================================================
- renderProducts(
-  sortedProducts,
-  productList,
-  state.wishlist.items,
-)
+  renderProducts(sortedProducts, productList, state.wishlist.items)
 
   //   Redux State Viewer
   reduxState.textContent = JSON.stringify(state, null, 2)
