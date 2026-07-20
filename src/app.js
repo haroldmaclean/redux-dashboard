@@ -23,6 +23,9 @@ import { addItem, clearCart } from './store/cartSlice.js'
 // 🟢 NEW IMPORT FOR SPRINT 1 REFACOR:
 import { renderProducts } from './render/renderProducts.js'
 
+// 🟢 NEW IMPORT FOR SPRINT 3 REFACOR:
+import { renderCart } from './render/renderCart.js'
+
 import { filterProducts } from './utils/filterProducts.js'
 
 import { registerEventListeners } from './events/registerEventListeners.js'
@@ -119,13 +122,13 @@ function render() {
     categoryFilter.value = selectedCategory
   }
 
-  cartCount.textContent = state.cart.items.length
+  /*cartCount.textContent = state.cart.items.length
 
   const totalPrice = state.cart.items.reduce((total, item) => {
     return total + item.price
   }, 0)
 
-  cartTotal.textContent = `$${totalPrice.toFixed(2)}`
+  cartTotal.textContent = `$${totalPrice.toFixed(2)}`*/
 
   // Counter
   countValue.textContent = state.counter.value
@@ -140,20 +143,29 @@ function render() {
   logoutBtn.disabled = !state.user.loggedIn
 
   // Cart
-  cartItems.innerHTML = ''
+  /*cartItems.innerHTML = ''
 
   if (state.cart.items.length === 0) {
     emptyCartMessage.style.display = 'block'
   } else {
     emptyCartMessage.style.display = 'none'
-  }
+  }*/
 
-  state.cart.items.forEach((item) => {
+  /*state.cart.items.forEach((item) => {
     const li = document.createElement('li')
 
     li.textContent = `${item.name} - $${item.price}`
 
     cartItems.appendChild(li)
+  })*/
+
+  // 🟢 REPLACED CART RENDERING LOGIC WITH NEW DELEGATED MODULE CALL
+  renderCart({
+    cart: state.cart,
+    cartCount,
+    cartTotal,
+    cartItems,
+    emptyCartMessage,
   })
 
   /* ===============================================================
