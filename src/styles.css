@@ -238,6 +238,7 @@ input:focus {
 
 /* 2. Turn the wishlist ul into a vertical layout with spacing */
 #wishlist-items {
+  list-style: none;
   padding: 0;
   margin: 0;
   display: flex;

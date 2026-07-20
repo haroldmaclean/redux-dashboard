@@ -26,6 +26,9 @@ import { renderProducts } from './render/renderProducts.js'
 // 🟢 NEW IMPORT FOR SPRINT 3 REFACOR:
 import { renderCart } from './render/renderCart.js'
 
+// 🟢 NEW IMPORT FOR SPRINT 3 (WISHLIST) REFACOR:
+import { renderWishlist } from './render/renderWishlist.js'
+
 import { filterProducts } from './utils/filterProducts.js'
 
 import { registerEventListeners } from './events/registerEventListeners.js'
@@ -168,41 +171,11 @@ function render() {
     emptyCartMessage,
   })
 
-  /* ===============================================================
-     ✨ WISHLIST FEATURE INTEGRATION ✨
-     Integrated ChatGPT UI loop directly into the global template layout engine
-  ================================================================= */
-  wishlistItems.innerHTML = ''
-
-  // Show or hide the empty message
-  if (state.wishlist.items.length === 0) {
-    emptyWishlistMessage.style.display = 'block'
-  } else {
-    emptyWishlistMessage.style.display = 'none'
-  }
-
-  // Loop through the wishlist slice state and generate dynamic grid cards
-  state.wishlist.items.forEach((product) => {
-    const li = document.createElement('li')
-    li.classList.add('wishlist-card')
-
-    li.innerHTML = `
-      <img
-        src="${product.thumbnail}"
-        alt="${product.title}"
-        class="wishlist-image"
-      >
-      <h3>${product.title}</h3>
-      <p>$${product.price}</p>
-      <p>⭐ ${product.rating}</p>
-      <button
-        class="remove-wishlist-btn"
-        data-id="${product.id}"
-      >
-        Remove
-      </button>
-    `
-    wishlistItems.appendChild(li)
+  // 🟢 REPLACED WISHLIST RENDERING LOGIC WITH NEW DELEGATED MODULE CALL
+  renderWishlist({
+    wishlist: state.wishlist,
+    wishlistItems,
+    emptyWishlistMessage,
   })
 
   // FEATURE 6 — LOADING SPINNER STATE TOGGLE
