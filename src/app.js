@@ -33,6 +33,8 @@ import { renderUser } from './render/renderUser.js'
 
 import { renderCounter } from './render/renderCounter.js'
 
+import { renderReduxState } from './render/renderReduxState'
+
 import { filterProducts } from './utils/filterProducts.js'
 
 import { registerEventListeners } from './events/registerEventListeners.js'
@@ -236,7 +238,12 @@ if (categoryFilteredProducts.length === 0)*/
   renderProducts(sortedProducts, productList, state.wishlist.items)
 
   //   Redux State Viewer
-  reduxState.textContent = JSON.stringify(state, null, 2)
+  renderReduxState({
+    state,
+    reduxState,
+  })
+
+  /*reduxState.textContent = JSON.stringify(state, null, 2)*/
 }
 
 /* ===============================
