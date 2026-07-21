@@ -31,6 +31,8 @@ import { renderWishlist } from './render/renderWishlist.js'
 
 import { renderUser } from './render/renderUser.js'
 
+import { renderCounter } from './render/renderCounter.js'
+
 import { filterProducts } from './utils/filterProducts.js'
 
 import { registerEventListeners } from './events/registerEventListeners.js'
@@ -136,7 +138,11 @@ function render() {
   cartTotal.textContent = `$${totalPrice.toFixed(2)}`*/
 
   // Counter
-  countValue.textContent = state.counter.value
+  renderCounter({
+    counter: state.counter,
+    countValue,
+  })
+  /*countValue.textContent = state.counter.value*/
 
   renderUser({
     user: state.user,
