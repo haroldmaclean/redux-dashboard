@@ -29,6 +29,8 @@ import { renderCart } from './render/renderCart.js'
 // 🟢 NEW IMPORT FOR SPRINT 3 (WISHLIST) REFACOR:
 import { renderWishlist } from './render/renderWishlist.js'
 
+import { renderUser } from './render/renderUser.js'
+
 import { filterProducts } from './utils/filterProducts.js'
 
 import { registerEventListeners } from './events/registerEventListeners.js'
@@ -136,14 +138,23 @@ function render() {
   // Counter
   countValue.textContent = state.counter.value
 
+  renderUser({
+    user: state.user,
+    userName,
+    loginStatus,
+    loginBtn,
+    logoutBtn,
+  })
+
   // User
-  userName.textContent = state.user.name || 'None'
+  /*userName.textContent = state.user.name || 'None'
 
   loginStatus.textContent = state.user.loggedIn ? 'Logged In' : 'Logged Out'
 
   loginBtn.disabled = state.user.loggedIn
 
   logoutBtn.disabled = !state.user.loggedIn
+  */
 
   // Cart
   /*cartItems.innerHTML = ''
