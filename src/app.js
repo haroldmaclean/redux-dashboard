@@ -39,6 +39,8 @@ import { filterProducts } from './utils/filterProducts.js'
 
 import { registerEventListeners } from './events/registerEventListeners.js'
 
+import { populateCategories } from './helpers/populateCategories.js'
+
 /* ===============================
    DOM ELEMENTS
 ================================= */
@@ -108,7 +110,12 @@ function render() {
   const sortBy = sortProducts.value
 
   //FEATURE 8 — BUILD CATEGORY LIST (PROFESSIONAL OPTIMIZED)
-  const categories = (state.products.products || []).map((product) => {
+  populateCategories({
+    products: state.products.products,
+    categoryFilter,
+    selectedCategory,
+  })
+  /*const categories = (state.products.products || []).map((product) => {
     return product.category
   })
   const uniqueCategories = [...new Set(categories)]
@@ -129,7 +136,7 @@ function render() {
 
     // Maintain the user's active selection state after rebuilding options
     categoryFilter.value = selectedCategory
-  }
+  }*/
 
   /*cartCount.textContent = state.cart.items.length
 
